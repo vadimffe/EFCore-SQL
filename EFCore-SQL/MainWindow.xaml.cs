@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-
+using System.Windows.Controls;
 
 namespace EFCore_SQL
 {
@@ -14,6 +15,7 @@ namespace EFCore_SQL
         public MainWindow()
         {
             InitializeComponent();
+            UpdateGrid();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -22,8 +24,16 @@ namespace EFCore_SQL
             {
                 // Create
                 Debug.WriteLine("Add New Employee: ");
-                db.Add<Employee>(new Employee { FirstName = "John", LastName = "Doe", Age = 55 });
-                db.SaveChanges();
+
+                if (!string.IsNullOrEmpty(FirstName.Text) && !string.IsNullOrEmpty(LastName.Text) && !string.IsNullOrEmpty(Age.Text))
+                {
+                    db.Add<Employee>(new Employee { FirstName = FirstName.Text, LastName = LastName.Text, Age = int.Parse(Age.Text) });
+                    db.SaveChanges();
+                }
+                else
+                {
+                    MessageBox.Show("Input some data!");
+                }
 
                 Debug.WriteLine("Employee has been added sucessfully.");
 
@@ -55,21 +65,36 @@ namespace EFCore_SQL
         {
             using (var db = new SQLiteDBContext())
             {
-                // Update
-                Debug.WriteLine("Updating the employee first name and age.");
 
-                var employee = db.Employee
-                .OrderBy(b => b.Id)
-                .FirstOrDefault();
-
-                if (employee != null)
+                if (DataGriddd.SelectedItems.Count == 1 &&!string.IsNullOrEmpty(FirstName.Text) && !string.IsNullOrEmpty(LastName.Text) && !string.IsNullOrEmpty(Age.Text))
                 {
+                    object item = DataGriddd.SelectedItem;
+                    string ID = (DataGriddd.SelectedCells[0].Column.GetCellContent(item) as TextBlock).Text;
+
+                    var employee = db.Employee
+                        .Where(d => d.Id == int.Parse(ID))
+                        .OrderBy(b => b.Id)
+                        .First();
+
+                    Debug.WriteLine("The employee found: {0} {1} and is {2} years old.", employee.FirstName, employee.LastName, employee.Age);
+
+                    // Update
+                    Debug.WriteLine("Updating the employee first name and age.");
+
                     employee.FirstName = "Louis";
                     employee.Age = 90;
 
-                    Debug.WriteLine("Newly updated employee is: {0} {1} and is {2} years old.", employee.FirstName, employee.LastName, employee.Age);
+                    if (employee != null)
+                    {
+                        employee.FirstName = FirstName.Text;
+                        employee.LastName = LastName.Text;
+                        employee.Age = int.Parse(Age.Text);
 
-                    db.SaveChanges();
+                        //Debug.WriteLine("Newly updated employee is: {0} {1} and is {2} years old.", employee.FirstName, employee.LastName, employee.Age);
+
+                        db.SaveChanges();
+
+                    }
                 }
 
                 UpdateGrid();
@@ -81,17 +106,30 @@ namespace EFCore_SQL
         {
             using (var db = new SQLiteDBContext())
             {
-                var employee = db.Employee
-                .OrderBy(b => b.Id)
-                .FirstOrDefault();
+                var row = DataGriddd.SelectedItems[0];
+                DataRowView castedRow = DataGriddd.SelectedItems[0] as DataRowView;
+
+                //var employee = db.Employee
+                //.OrderBy(b => b.Id)
+                //.FirstOrDefault();
+
+                var selectedItem = DataGriddd.SelectedItem;
 
                 // Delete
                 Debug.WriteLine("Delete the employee.");
 
-                if (employee != null)
+                if (selectedItem != null)
                 {
-                    db.Remove(employee);
-                    db.SaveChanges();
+                    try
+                    {
+                        db.Remove(selectedItem);
+                        db.SaveChanges();
+                    }
+                    catch (System.Exception)
+                    {
+
+                        // throw;
+                    }
                 }
 
                 UpdateGrid();
@@ -115,6 +153,26 @@ namespace EFCore_SQL
 
                 DataGriddd.ItemsSource = queryResults;
 
+            }
+        }
+
+        private void DataGriddd_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                object item = DataGriddd.SelectedItem;
+                string FN = (DataGriddd.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text;
+                string LN = (DataGriddd.SelectedCells[2].Column.GetCellContent(item) as TextBlock).Text;
+                string AGE = (DataGriddd.SelectedCells[3].Column.GetCellContent(item) as TextBlock).Text;
+
+                FirstName.Text = FN;
+                LastName.Text = LN;
+                Age.Text = AGE;
+            }
+            catch (System.Exception)
+            {
+
+                // throw;
             }
         }
     }

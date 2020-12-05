@@ -5,15 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EFCore_SQL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Database inspector" Height="450" Width="800">
     <Grid>
-        <Button Content="Create" HorizontalAlignment="Left" Height="39" Margin="51,29,0,0" VerticalAlignment="Top"
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button Content="Create" HorizontalAlignment="Left" Height="39" Margin="284,28,0,0" VerticalAlignment="Top"
                 Width="106" Click="Button_Click"/>
-        <Button Content="Display the man" HorizontalAlignment="Left" Height="39" Margin="181,29,0,0" VerticalAlignment="Top" Width="122" Click="Button_Click_1"/>
-        <Button Content="Update" HorizontalAlignment="Left" Height="39" Margin="332,29,0,0" VerticalAlignment="Top" Width="110" Click="Button_Click_2"/>
-        <Button Content="Remove" HorizontalAlignment="Left" Height="39" Margin="474,29,0,0" VerticalAlignment="Top" Width="109" Click="Button_Click_3"/>
-        <DataGrid x:Name="DataGriddd" HorizontalAlignment="Center" Height="340" Margin="0,84,0,0" VerticalAlignment="Top" Width="780"/>
-        <Button Content="Update" HorizontalAlignment="Left" Height="39" Margin="622,29,0,0" VerticalAlignment="Top" Width="117" Click="Button_Click_4"/>
+        <Button Content="Display the man" Margin="0,118,20,0" Click="Button_Click_1" Height="39" VerticalAlignment="Top" HorizontalAlignment="Right" Width="109"/>
+        <Button Content="Update" HorizontalAlignment="Left" Height="39" Margin="284,72,0,0" VerticalAlignment="Top" Width="106" Click="Button_Click_2"/>
+        <Button Content="Remove" Margin="0,30,20,0" Click="Button_Click_3" Height="39" VerticalAlignment="Top" HorizontalAlignment="Right" Width="109"/>
+        <DataGrid x:Name="DataGriddd" Margin="10,217,10,10" SelectionChanged="DataGriddd_SelectionChanged"/>
+        <Button Content="Refresh" Margin="0,74,20,0" Click="Button_Click_4" HorizontalAlignment="Right" Width="109" Height="39" VerticalAlignment="Top"/>
+        <TextBox x:Name="FirstName" HorizontalAlignment="Left" Height="26" Margin="131,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138"/>
+        <Label Content="First name" HorizontalAlignment="Left" Height="26" Margin="25,28,0,0" VerticalAlignment="Top" Width="101"/>
+
+        <TextBox x:Name="Age" HorizontalAlignment="Left" Height="26" Margin="131,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138"/>
+        <Label Content="Age" HorizontalAlignment="Left" Height="26" Margin="25,90,0,0" VerticalAlignment="Top" Width="101"/>
+
+        <TextBox x:Name="LastName" HorizontalAlignment="Left" Height="26" Margin="131,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138"/>
+        <Label Content="Last name" HorizontalAlignment="Left" Height="26" Margin="25,59,0,0" VerticalAlignment="Top" Width="101"/>
 
     </Grid>
 </Window>
