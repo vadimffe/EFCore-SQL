@@ -15,6 +15,17 @@ namespace EFCore_SQL.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.0");
 
+            modelBuilder.Entity("EFCore_SQL.Appsettings", b =>
+                {
+                    b.Property<string>("SettingKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("Appsettings");
+                });
+
             modelBuilder.Entity("EFCore_SQL.Employee", b =>
                 {
                     b.Property<int>("Id")

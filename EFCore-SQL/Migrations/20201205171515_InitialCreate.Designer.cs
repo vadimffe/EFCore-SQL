@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore_SQL.Migrations
 {
     [DbContext(typeof(SQLiteDBContext))]
-    [Migration("20201204230808_InitialCreate")]
+    [Migration("20201205171515_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -16,6 +16,17 @@ namespace EFCore_SQL.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.0");
+
+            modelBuilder.Entity("EFCore_SQL.Appsettings", b =>
+                {
+                    b.Property<string>("SettingKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("Appsettings");
+                });
 
             modelBuilder.Entity("EFCore_SQL.Employee", b =>
                 {

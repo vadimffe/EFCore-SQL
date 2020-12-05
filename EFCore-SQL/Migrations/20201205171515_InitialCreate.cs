@@ -7,6 +7,17 @@ namespace EFCore_SQL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Appsettings",
+                columns: table => new
+                {
+                    SettingKey = table.Column<string>(type: "TEXT", nullable: true),
+                    Value = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employee",
                 columns: table => new
                 {
@@ -24,6 +35,9 @@ namespace EFCore_SQL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Appsettings");
+
             migrationBuilder.DropTable(
                 name: "Employee");
         }
