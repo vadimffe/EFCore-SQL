@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using EFCore_SQL.Properties;
+using System.Configuration;
 
 namespace EFCore_SQL
 {
@@ -8,7 +10,7 @@ namespace EFCore_SQL
         public virtual DbSet<Appsettings> Appsettings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite(@"Data Source=sqlitedemo.db");
+            => options.UseSqlite(appconfig.ConnectionString);
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
